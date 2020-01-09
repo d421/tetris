@@ -1,6 +1,7 @@
 from tkinter import Canvas, Label, Tk, StringVar, Button, LEFT
 from random import choice, randint
-
+import random
+COLORS = ["Red", "Yellow","Green"]
 class GameCanvas(Canvas):
     def clean_line(self, boxes_to_delete):
         for box in boxes_to_delete:
@@ -143,7 +144,7 @@ class Piece():
                                                level * Tetris.BOX_SIZE + (y1 - min_y),
                                                x2,
                                                (level + 1) * Tetris.BOX_SIZE + (y1 - min_y),
-                                               fill="red",
+                                               fill="blue",
                                                tags = "predict")
 
     def remove_predicts(self):
@@ -160,7 +161,7 @@ class Piece():
                                                y * Tetris.BOX_SIZE + off_y,
                                                x * Tetris.BOX_SIZE + Tetris.BOX_SIZE + off_x,
                                                y * Tetris.BOX_SIZE + Tetris.BOX_SIZE + off_y,
-                                               fill="yellow",
+                                               fill=random.choice(COLORS),
                                                tags="game")
             boxes += [box]
 
@@ -228,7 +229,7 @@ class Tetris():
             self.update_predict()
         elif event.char in ["s", "S", "\uf701"]:
             self.hard_drop()
-        elif event.char in ["w", "W", "\uf700"]:
+        elif event.char in ["w", "W", "\uf704"]:
             self.current_piece.rotate()
             self.update_predict()
     def new_game(self):
@@ -296,7 +297,7 @@ class Tetris():
     def is_game_over(self):
         if not self.current_piece.move((0,1)):
 
-            self.play_again_btn = Button(self.root, text="Play Again", command=self.play_again)
+            self.play_again_btn = Button(self.root, text="Retry", command=self.play_again)
             self.quit_btn = Button(self.root, text="Quit", command=self.quit)
             self.play_again_btn.place(x = Tetris.GAME_WIDTH + 10, y = 200, width=100, height=25)
             self.quit_btn.place(x = Tetris.GAME_WIDTH + 10, y = 300, width=100, height=25)
@@ -384,4 +385,3 @@ class Tetris():
 if __name__ == '__main__':
     game = Tetris(predictable = True)
     game.start()
-
